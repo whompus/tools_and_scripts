@@ -19,7 +19,7 @@ gamDir="$HOME/bin/gam/gam"
 #Check for proper GAM installation
 if [[ ! -d /Users/$USER/bin/gam ]]
 then
-  abort "GAM is not installed in correct directory, please install in $gamDir, exiting"
+    abort "GAM is not installed in correct directory, please install in $gamDir, exiting"
 fi
 
 #Script Title
@@ -32,10 +32,10 @@ echo
 if [[ -z $1 ]]; then
     echo "No file supplied, please enter the account information below: "
     while read -p 'User First Name: ' first && [[ $first != [[:upper:]]* ]]; do
-      printf 'Please enter a capitalized name\n' >&2
+        printf 'Please enter a capitalized name\n' >&2
     done
     while read -p 'User Last Name: ' last && [[ $last != [[:upper:]]* ]]; do
-      printf 'Please enter a capitalized name\n' >&2
+        printf 'Please enter a capitalized name\n' >&2
     done
     echo
 

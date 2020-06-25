@@ -8,13 +8,13 @@ GAM="$HOME/bin/gam/gam"
 
 if [[ ! -d /Users/$USER/bin/gam ]]
 then
-  echo "GAM is not installed in correct directory, please install in $GAM, exiting"
-  exit 1
+    echo "GAM is not installed in correct directory, please install in $GAM, exiting"
+    exit 1
 fi
 
 if [[ -z $1 ]]; then
     echo "No file supplied."
-    echo "Usage: ./bulk_delete_gsuite.sh path/to/list.txt"
+    echo "Usage: $0 path/to/list.txt"
     echo "Exiting!"
     exit 2
 fi

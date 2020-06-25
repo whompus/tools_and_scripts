@@ -12,17 +12,17 @@ abort() {
 jq --version
 err=$?
 if [[ ${err} -ne 0 ]]; then
-  abort "jq is not installed, please install jq using 'brew install jq' and run the script again"
+    abort "jq is not installed, please install jq using 'brew install jq' and run the script again"
 fi
 
 # checks to see if encrypted file exists, creates it on first use and encrypts/password protects file
 if test ! -e $HOME/jcapikeyencrypted.txt; then
-  read -p "No encrypted API key file detected, please enter you API key to create the encrypted file: " apiTxt
-  echo ${apiTxt} > $HOME/jcapikey.txt && openssl enc -aes-256-cbc -e -in $HOME/jcapikey.txt -out $HOME/jcapikeyencrypted.txt
-  echo "File created and password protected, you will not need to provide your api key again, only a password"
-  echo "Decrypting API key file... "
+    read -p "No encrypted API key file detected, please enter you API key to create the encrypted file: " apiTxt
+    echo ${apiTxt} > $HOME/jcapikey.txt && openssl enc -aes-256-cbc -e -in $HOME/jcapikey.txt -out $HOME/jcapikeyencrypted.txt
+    echo "File created and password protected, you will not need to provide your api key again, only a password"
+    echo "Decrypting API key file... "
 else
-  echo "Decrypting API key file... "
+    echo "Decrypting API key file... "
 fi
 
 # decrypts the file with password sepcified above, and creates jcapikey.txt
@@ -37,28 +37,28 @@ read -p 'Enter new user last name: ' lastName
 
 # POST request to create jumpcloud user, sends new user an email
 userID=$(curl -s -X POST https://console.jumpcloud.com/api/systemusers \
-  -H 'Accept: application/json' \
-  -H 'Content-Type: application/json' \
-  -H "x-api-key: $apiKey" \
-  -d '{
+    -H 'Accept: application/json' \
+    -H 'Content-Type: application/json' \
+    -H "x-api-key: $apiKey" \
+    -d '{
 	"username":"'$userName'",
 	"email":"'$userEmail'",
 	"firstname":"'$firstName'",
 	"lastname":"'$lastName'",
-  "password":"'$firstName.$lastName'"
+    "password":"'$firstName.$lastName'"
 }' | jq -r '._id') && curl -X POST https://console.jumpcloud.com/api/v2/usergroups/59400ceb1f247535a9160628/members \
-  -H 'Accept: application/json' \
-  -H 'Content-Type: application/json' \
-  -H "x-api-key: $apiKey" \
-  -d '{
-    "op": "add",
-    "type": "user",
-    "id": "'${userID}'"
+    -H 'Accept: application/json' \
+    -H 'Content-Type: application/json' \
+    -H "x-api-key: $apiKey" \
+    -d '{
+        "op": "add",
+        "type": "user",
+        "id": "'${userID}'"
 }'
 
 err=$?
 if [[ ${err} -ne 0 ]]; then
-  abort "There was a problem creating the user account, please check jumpcloud or try running the script again." && rm $HOME/jcapikey.txt
+    abort "There was a problem creating the user account, please check jumpcloud or try running the script again." && rm $HOME/jcapikey.txt
 else
-  echo "New hire created successfully!" && rm $HOME/jcapikey.txt && exit 0
+    echo "New hire created successfully!" && rm $HOME/jcapikey.txt && exit 0
 fi
