@@ -17,7 +17,7 @@ abort() {
 gamDir="$HOME/bin/gam/gam"
 
 #Check for proper GAM installation
-if [[ ! -d /Users/$USER/bin/gam ]]
+if [[ ! -d $gamDir ]]
 then
     abort "GAM is not installed in correct directory, please install in $gamDir, exiting"
 fi
