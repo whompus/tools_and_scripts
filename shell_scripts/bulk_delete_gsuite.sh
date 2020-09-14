@@ -6,7 +6,7 @@
 
 GAM="$HOME/bin/gam/gam"
 
-if [[ ! -d /Users/$USER/bin/gam ]]
+if [[ ! -d ${GAM} ]]
 then
     echo "GAM is not installed in correct directory, please install in $GAM, exiting"
     exit 1
