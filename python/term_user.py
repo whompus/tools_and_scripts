@@ -23,7 +23,7 @@ import subprocess
 from argparse import ArgumentParser
 
 JC_API_TOKEN = os.environ.get("JC_API_TOKEN")
-JUMPCLOUD='https://console.jumpcloud.com/api'
+JUMPCLOUD = 'https://console.jumpcloud.com/api'
 JC_HEADERS = {
     'Accept': 'application/json',
     'Content-Type': 'application/json',
@@ -31,6 +31,7 @@ JC_HEADERS = {
 }
 
 LP_API_TOKEN = os.environ.get("LP_API_TOKEN")
+LP_CID = os.environ.get("LP_CID")
 LASTPASS = 'https://lastpass.com/enterpriseapi.php'
 LASTPASS_HEADERS = {
     'Content-Type': 'application/json'
@@ -39,13 +40,18 @@ LASTPASS_HEADERS = {
 
 def check_jc_api_key():
     if not JC_API_TOKEN:
-        print("No JC api key found")
+        print("No JC api key found, export as env variable and try the script again")
         sys.exit(1)
 
-def check_lp_api_key():
+def check_lp_info():
     if not LP_API_TOKEN:
-        print("No LP api key found")
+        print("No LP api key found, export as env variable and try the script again")
         sys.exit(1)
+    
+    if not LP_CID:
+        print("No CID (Customer ID) found, export as env variable and try the script again")
+        sys.exit(1)
+
 
 def create_parser():
     parser = ArgumentParser()
@@ -181,7 +187,7 @@ def suspend_gsuite(user_email):
 
 def term_lastpass_user(user_email):
     user_payload = {
-            "cid": 10247908,
+            "cid": LP_CID,
             "provhash": LP_API_TOKEN,
             "cmd": "deluser",
             "data": [
