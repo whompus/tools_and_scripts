@@ -3,8 +3,11 @@
 """
 This script will go through your JC instance and look for users without 
 any system association (bound to a machine) and return a list of email 
-addresses or usernames. Depending on how you configure the dict comprehension 
-on line 42, and also lines 67-69.
+addresses or usernames (depending on how you configure the dict comprehension 
+on line 42, and also lines 67-69).
+
+NOTE: If a user is bound to a system via group, it will not return results, the user has 
+to be directly bound to the system. 
 
 An API key for Jumpcloud must be set as an environment variable. Easiest to 
 put this in your shell config (.bashrc, .zshrc, or similar).
