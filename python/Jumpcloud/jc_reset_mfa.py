@@ -22,6 +22,11 @@ JC_HEADERS = {
     'x-api-key': JC_API_TOKEN
 }
 
+def check_jc_api_key():
+    if not JC_API_TOKEN:
+        print("No JC api key found, export as env variable and try the script again")
+        sys.exit(1)
+
 # creates parser
 def create_parser():
     parser = ArgumentParser()
@@ -77,6 +82,8 @@ def reset_mfa(jc_user_id):
         sys.exit(1)
 
 if __name__ == "__main__":
+    check_jc_api_key()
+    
     args = create_parser().parse_args()
     
     email = args.email

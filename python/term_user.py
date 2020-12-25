@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
 
 """
-AX Term script
+Term script
 ----------
 The idea of this script is to be able to run from the command line instead of
 wasting time logging into each service in a browser. Makes terminations more streamlined and standardized.
 
-Could adapt this script once we get SSO working.
-
 API keys must be set as environment variables with the appropriate names.
 
-GAM must be installed; this is a hacky solution until we get proper API calls to Google configured.
+GAM must be installed; this is a hacky solution until I get proper API calls to Google configured.
 
-TODO: Get lastpass working
+Services: Jumpcloud, Google, Lastpass
+
+TODO: Potentially make distribution and package this up nicely
 """
 
 import requests
@@ -211,9 +211,14 @@ def term_lastpass_user(user_email):
 
 if __name__ == "__main__":
     args = create_parser().parse_args()
+
     user_email = args.email
+
     jc_user_id = find_jc_user(user_email)
+
     term_jc_user(jc_user_id, user_email)
+
     suspend_gsuite(user_email)
+
     term_lastpass_user(user_email)
 
