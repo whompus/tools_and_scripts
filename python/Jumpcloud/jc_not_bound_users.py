@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
 
 """
-This script will go through our JC instance and look for users without 
-any system association (bound to their machine) and return a list of email addresses.
+This script will go through your JC instance and look for users without 
+any system association (bound to a machine) and return a list of email 
+addresses or usernames. Depending on how you configure the dict comprehension 
+on line 42, and also lines 67-69.
+
 An API key for Jumpcloud must be set as an environment variable. Easiest to 
 put this in your shell config (.bashrc, .zshrc, or similar).
 """
@@ -11,6 +14,7 @@ import requests
 import os
 import json
 import sys
+
 
 JC_API_TOKEN = os.environ.get("JC_API_TOKEN")
 JUMPCLOUDV1='https://console.jumpcloud.com/api/systemusers'

@@ -6,6 +6,9 @@ a Jumpcloud API key to be stored as an env var. When you run the
 script, pass an email address as an argument. The script will search 
 for the user in your Jumpcloud directory, displays a selectable list
 of groups for you to choose from, and adds the given user to those groups.
+
+An API key for Jumpcloud must be set as an environment variable. Easiest to 
+put this in your shell config (.bashrc, .zshrc, or similar).
 """
 
 import requests
@@ -15,8 +18,8 @@ import json
 import sys
 from pick import pick
 from operator import itemgetter
-
 from argparse import ArgumentParser
+
 
 JC_API_TOKEN = os.environ.get("JC_API_TOKEN")
 JUMPCLOUD = 'https://console.jumpcloud.com/api'
@@ -32,8 +35,7 @@ def create_parser():
     parser.add_argument('email', help="email to search for and return user data")
     return parser
 
-# find user id from email supplied as argument
-# TODO: extract userId from this to get rid of other function
+# find user and return id from email supplied as argument
 def find_user(email):
     try:
         r = requests.get(f'{JUMPCLOUD}/systemusers?filter=email:eq:{email}', headers=JC_HEADERS)
@@ -82,7 +84,7 @@ def get_groups():
 
 #add them to picker to be a selectable list
 def group_selection(groups_list):    
-    title = 'Please choose the groups that the user should be added to, all users are added to WiFi and Prod VPN by default (SPACE to mark, ENTER to continue): '
+    title = 'Please choose the groups that the user should be added to (SPACE to mark, ENTER to continue): '
     options = groups_list
     selected = dict(pick(options, title, multiselect=True, min_selection_count=0))
     selected_group_names = list(selected.keys())
@@ -142,9 +144,8 @@ def add_user_to_groups(group_ids, jc_user_id):
 
 if __name__ == "__main__":
     args = create_parser().parse_args()
+    
     email = args.email
-
-    # email = input("Enter email to add to JC groups: ")
 
     jc_user_id = find_user(email)
     
