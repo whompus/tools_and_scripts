@@ -120,22 +120,6 @@ def group_list(name_and_id, selected_group_names):
             
     return group_ids
 
-# gets JC userID, can be simplified above
-def get_jc_user_id(email):
-    try:
-        r = requests.get(f'{JUMPCLOUD}/systemusers?filter=email:eq:{email}', headers=JC_HEADERS)
-        # load user data
-        user_json = json.loads(r.text)
-
-        #extract user id for group additions
-        jc_user_id = (json.dumps(user_json['results'][0]['id']).strip('"'))
-
-    except requests.exceptions.RequestException as err:
-        print("Something went wrong while contacting JC to get user info: " + repr(err))
-        sys.exit(1)
-
-    return jc_user_id
-
 # adds user to selected groups
 def add_user_to_groups(group_ids, jc_user_id):    
     payload = {
@@ -171,8 +155,6 @@ if __name__ == "__main__":
     name_and_id = extract_group_name_and_id()
 
     group_ids = group_list(name_and_id, selected_group_names)
-
-    jc_user_id = get_jc_user_id(email)
 
     add_user_to_groups(group_ids, jc_user_id)
 
